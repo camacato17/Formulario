@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package Interfaz;
 
 import java.awt.BorderLayout;
@@ -11,16 +8,15 @@ import javax.swing.JPanel;
  *
  * @author LUIS
  */
-public class Diseño extends javax.swing.JFrame {
-    
+public final class Diseño extends javax.swing.JFrame {
+    INSERTAR insertar;
+    public void ventanas(){
+    insertar = new INSERTAR();
+    }
     public Diseño() {
         initComponents();
-    INSERTAR insertar = new INSERTAR();
-        insertar.setSize(800, 400);
-        jPanelAparicion.removeAll();//
-   jPanelAparicion.add(insertar);
-   jPanelAparicion.revalidate();
-    jPanelAparicion.repaint();//
+        ventanas();
+        
     }
 
     /**
@@ -53,6 +49,11 @@ public class Diseño extends javax.swing.JFrame {
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
         JPanelMenu.add(jButton1);
@@ -104,12 +105,16 @@ public class Diseño extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-          // TODO add your handling code here:
+          
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         System.exit(0);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+     nuevopanel(insertar);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,7 +152,7 @@ public class Diseño extends javax.swing.JFrame {
     } 
     public void nuevopanel(JPanel panelActual){
    jPanelAparicion.removeAll();//
-   jPanelAparicion.add(panelActual,BorderLayout.CENTER);
+   jPanelAparicion.add(panelActual);
    jPanelAparicion.revalidate();
     jPanelAparicion.repaint();//
   
