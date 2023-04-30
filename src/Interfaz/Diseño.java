@@ -1,21 +1,30 @@
 
 package Interfaz;
 
+import com.sun.jdi.connect.spi.Connection;
 import java.awt.BorderLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
+import conexionMysql.conector;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.DriverManager;
 /**
  *
  * @author LUIS
  */
 public final class Diseño extends javax.swing.JFrame {
-    INSERTAR insertar;
-    public void ventanas(){
-    insertar = new INSERTAR();
-    }
+    
     public Diseño() {
         initComponents();
-        ventanas();
+        INSERTAR insertar = new INSERTAR();
+        insertar.setSize(800,800);
+        insertar.setVisible(true);
+        insertar.setLayout(new BorderLayout());
+        jPanelAparicion.removeAll();//
+        jPanelAparicion.add(insertar);
+        jPanelAparicion.repaint();//
+        jPanelAparicion.revalidate();
         
     }
 
@@ -43,8 +52,12 @@ public final class Diseño extends javax.swing.JFrame {
         jPanelBase.setBackground(new java.awt.Color(255, 255, 255));
         jPanelBase.setLayout(null);
 
+        JPanelMenu.setBackground(new java.awt.Color(0, 102, 204));
+        JPanelMenu.setForeground(new java.awt.Color(255, 51, 51));
         JPanelMenu.setLayout(null);
 
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setText("INSERTAR");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -59,19 +72,30 @@ public final class Diseño extends javax.swing.JFrame {
         JPanelMenu.add(jButton1);
         jButton1.setBounds(10, 110, 240, 80);
 
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
+        jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("ELIMINAR");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         JPanelMenu.add(jButton2);
         jButton2.setBounds(10, 290, 240, 80);
 
+        jButton3.setBackground(new java.awt.Color(255, 255, 255));
+        jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setText("MODIFICAR");
         JPanelMenu.add(jButton3);
         jButton3.setBounds(10, 198, 240, 80);
 
-        jLabel1.setFont(new java.awt.Font("Yu Gothic Medium", 1, 22)); // NOI18N
-        jLabel1.setText("     MENU");
+        jLabel1.setFont(new java.awt.Font("Yu Gothic Medium", 1, 24)); // NOI18N
+        jLabel1.setText("    MENU");
         JPanelMenu.add(jLabel1);
         jLabel1.setBounds(70, 30, 120, 40);
 
+        jButton4.setBackground(new java.awt.Color(255, 255, 255));
+        jButton4.setForeground(new java.awt.Color(0, 0, 0));
         jButton4.setText("SALIR");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,12 +133,26 @@ public final class Diseño extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        System.exit(0);        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "GRACIAS POR USAR EL PROGRAMA");
+                
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     nuevopanel(insertar);
+     
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int row = INSERTAR.jTable1.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para eliminar.");
+            return;
+        }
+        int id = (int) INSERTAR.jTable1.getValueAt(row, 0);
+        eliminarFila(id);
+        
+        // Remueve la fila de la tabla
+        ((DefaultTableModel) jTable1.getModel()).removeRow(row);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -150,19 +188,30 @@ public final class Diseño extends javax.swing.JFrame {
             }
         });
     } 
-    public void nuevopanel(JPanel panelActual){
-   jPanelAparicion.removeAll();//
-   jPanelAparicion.add(panelActual);
-   jPanelAparicion.revalidate();
-    jPanelAparicion.repaint();//
-  
-   }
-//    public void cambiarPanel(JPanel panelAnterior, JPanel nuevoPanel) {
-//    getContentPane().remove(panelAnterior);
-//    getContentPane().add(nuevoPanel);
-//    revalidate();
-//    repaint();
-//}
+    
+   private void eliminarFila() {
+    int filaSeleccionada = INSERTAR.jTable1.getSelectedRow();
+    if (filaSeleccionada == -1) {
+        // Si no hay ninguna fila seleccionada, no hacer nada
+        return;
+    }
+    // Obtener el valor de la columna de la clave primaria
+    int id = (int) INSERTAR.jTable1.getValueAt(filaSeleccionada, 0);
+    // Eliminar la fila de la tabla en la base de datos
+    try {
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Universidad", "root", "");
+        String sql = "DELETE FROM estudiantes WHERE id=?";
+        PreparedStatement stmt = con.prepareStatement(sql);
+        stmt.setInt(1, id);
+        stmt.executeUpdate();
+        con.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    // Eliminar la fila de la tabla en la aplicación
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.removeRow(filaSeleccionada);
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel JPanelMenu;
