@@ -37,7 +37,7 @@ public class Conexion {
             Logger.getLogger(Conexion.class.getName()).log(Level.WARNING, null, ex);
         }
     }
-    public void InsertarEstudiante(Estudiante e) throws SQLException {
+    public boolean InsertarEstudiante(Estudiante e) throws SQLException {
         
         PreparedStatement ps =   conexion.prepareStatement(stmtInsertar);
         System.out.println(ps.toString());
@@ -47,9 +47,9 @@ public class Conexion {
         ps.setString(4, e.getApellido2());
         ps.setString(5, e.getFechaNacimiento());
         ps.setInt(6, e.getIdMatricula());
-        ps.execute();
+        return ps.execute();
     }
-    public void modificarEstudiante(Estudiante e) throws SQLException{
+    public boolean modificarEstudiante(Estudiante e) throws SQLException{
         PreparedStatement ps =   conexion.prepareStatement(stmtModificar);
         System.out.println(ps.toString());
         ps.setString(1, e.getNombre1());
@@ -59,15 +59,15 @@ public class Conexion {
         ps.setString(5, e.getFechaNacimiento());
         ps.setInt(6, e.getIdMatricula());
         ps.setInt(7,e.getId());
-        ps.execute();
+        return ps.execute();
         
     }
-    public void eliminarEstudiante(Estudiante e) throws SQLException {
+    public boolean eliminarEstudiante(Estudiante e) throws SQLException {
         
         PreparedStatement ps =   conexion.prepareStatement(stmtBorrar);
         ps.setInt(1, e.getId());
         System.out.println(ps.toString());
-        ps.execute();
+        return ps.execute();
     }
     public ArrayList<Estudiante> obtenerEstudiantes() throws SQLException{
         
@@ -102,14 +102,16 @@ public class Conexion {
         }
         return listaMatriculas;
     }
-    public ArrayList<String[]> obtenerDatosTabla(ArrayList<Estudiante> listaEstudiantes, ArrayList<Matricula> listaMatriculas) throws SQLException{
+    public ArrayList<String[]> obtenerDatosTabla(ArrayList<Estudiante> listaEstudiantes, ArrayList<Matricula> listaMatriculas){
         String[] datos= new String[4];
+        ArrayList<String[]> filasColumna = new ArrayList<>();
+        try {
         Statement stmt = conexion.createStatement();
         ResultSet rs = stmt.executeQuery(queryRelacion);
-        ArrayList<String[]> filasColumna = new ArrayList<>();
         while (rs.next()) {
             int idEstudianteQ = rs.getInt(1);
-            int idMatriculaQ = rs.getInt(2);
+            int idMatriculaQ;
+                idMatriculaQ = rs.getInt(2);
             Estudiante e = listaEstudiantes.stream()
                                     .filter(estudiante -> estudiante.getId() == idEstudianteQ)
                                     .findFirst()
@@ -128,6 +130,9 @@ public class Conexion {
             filasColumna.add(datos);
         }
         
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return filasColumna;
     }
 }
