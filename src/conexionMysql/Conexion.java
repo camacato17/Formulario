@@ -46,12 +46,9 @@ public class Conexion {
         ps.setString(4, e.getApellido2());
         ps.setString(5, e.getFechaNacimiento());
         ps.setInt(6, e.getIdMatricula());
-<<<<<<< HEAD
         System.out.println(ps.toString());
-        ps.execute();
-=======
         return ps.execute();
->>>>>>> 751d5b7289714151e59abe7bf5398821e054c485
+
     }
     public boolean modificarEstudiante(Estudiante e) throws SQLException{
         PreparedStatement ps =   conexion.prepareStatement(stmtModificar);
@@ -62,12 +59,9 @@ public class Conexion {
         ps.setString(5, e.getFechaNacimiento());
         ps.setInt(6, e.getIdMatricula());
         ps.setInt(7,e.getId());
-<<<<<<< HEAD
         System.out.println(ps.toString());
-        ps.execute();
-=======
         return ps.execute();
->>>>>>> 751d5b7289714151e59abe7bf5398821e054c485
+
         
     }
     public boolean eliminarEstudiante(Estudiante e) throws SQLException {
