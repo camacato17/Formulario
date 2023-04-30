@@ -17,7 +17,8 @@ public class Compilador {
         
         Diseño i =new Diseño();
         i.setVisible(true);
-        i.setSize(1200, 680);
+        i.setSize(1070, 700);
+        i.setResizable(false);
         i.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        
         
