@@ -1,0 +1,62 @@
+
+ingresar a bin desde el cmd y ejecutar comando;
+C:\xampp\mysql\bin>mysql -h localhost -u root
+
+
+
+create database Universidad;
+
+use Universidad;
+
+create table matricula(
+N_matricula int auto_increment not null primary key,
+fecha_mat date not null
+
+);
+
+create table estudiante(
+id int auto_increment not null primary key,
+Nombre1 varchar(250) not null, 
+Nombre2 varchar(250) not null, 
+apellido1 varchar(250) not null,
+apellido2 varchar(250) not null,
+fecha_nacimiento date not null,
+N_matricula int not null,
+foreing key (N_matricula) references matricula(N_matricula)
+);
+
+
+
+insert into matricula(fecha_mat)values ("2005-03-23");
+insert into matricula(fecha_mat)values ("2005-03-24");
+insert into matricula(fecha_mat)values ("2005-03-25");
+insert into matricula(fecha_mat)values ("2005-03-26");
+insert into matricula(fecha_mat)values ("2005-03-27");
+insert into matricula(fecha_mat)values ("2005-03-28");
+insert into matricula(fecha_mat)values ("2005-03-29");
+
+
+insert into estudiantes(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("hugo","alfredo","macpato","perez","2005-03-23",1);
+insert into estudiantes(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("paco","eduardo","macpato","perez","2005-03-24",2);
+insert into estudiantes(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("johan","triana","macpato","perez","2005-03-24",3);
+insert into estudiantes(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("carlos","romero","romero","retrepo","2005-03-24",4);
+insert into estudiantes(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("johan","sebastian","garcia","triana","2005-03-24",5);
+insert into estudiantes(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("nicolas","david","milenio","hortua","2005-03-24",6);
+insert into estudiantes(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("valentina","diana","torres","garzon","2005-03-24",7);
+
+
+
+comando para ver propiedades de table creada;
+show columns from tabla;
+
+para modificar un atributo de una tabla;
+alter table table modify atributo y propiedades;
+
+
+comando para mostrar datos de nuestra tabla,
+select * from estudiantes1;
+
+
+para agregar una llave foranea;
+alter table tabla add constraint nombrellave foreing key (nombre del atributo) references tabla(nombre de donde se extrae);
+
