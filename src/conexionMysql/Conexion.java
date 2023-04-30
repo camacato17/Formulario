@@ -40,18 +40,17 @@ public class Conexion {
     public void InsertarEstudiante(Estudiante e) throws SQLException {
         
         PreparedStatement ps =   conexion.prepareStatement(stmtInsertar);
-        System.out.println(ps.toString());
         ps.setString(1, e.getNombre1());
         ps.setString(2, e.getNombre2());
         ps.setString(3, e.getApellido1());
         ps.setString(4, e.getApellido2());
         ps.setString(5, e.getFechaNacimiento());
         ps.setInt(6, e.getIdMatricula());
+        System.out.println(ps.toString());
         ps.execute();
     }
     public void modificarEstudiante(Estudiante e) throws SQLException{
         PreparedStatement ps =   conexion.prepareStatement(stmtModificar);
-        System.out.println(ps.toString());
         ps.setString(1, e.getNombre1());
         ps.setString(2, e.getNombre2());
         ps.setString(3, e.getApellido1());
@@ -59,6 +58,7 @@ public class Conexion {
         ps.setString(5, e.getFechaNacimiento());
         ps.setInt(6, e.getIdMatricula());
         ps.setInt(7,e.getId());
+        System.out.println(ps.toString());
         ps.execute();
         
     }

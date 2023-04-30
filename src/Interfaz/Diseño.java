@@ -254,6 +254,7 @@ public final class Diseño extends javax.swing.JFrame {
          } catch (SQLException ex) {
              Logger.getLogger(Diseño.class.getName()).log(Level.SEVERE, null, ex);
          }
+         limpiar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -310,6 +311,16 @@ public final class Diseño extends javax.swing.JFrame {
             }
         });
     } 
+    
+    public void limpiar(){
+    prim_nombre.setText("");
+    seg_nombre.setText("");
+    primer_apellido.setText("");
+    seg_apellido.setText("");
+    fecha_nacimiento.setText("");
+    Num_matricula.setText("");
+    
+    }
     public boolean CamposVacios(){
          return prim_nombre.getText().isEmpty()|| primer_apellido.getText().isEmpty()|| seg_apellido.getText().isEmpty()||fecha_nacimiento.getText().isEmpty()
                  ||Num_matricula.getText().isEmpty();
@@ -325,6 +336,12 @@ public final class Diseño extends javax.swing.JFrame {
          for (String[] fila : filas) {
              model.addRow(fila);
          }
+
+}
+     public void ActualizarDatos() throws SQLException{
+    lista_estudiantes = c.obtenerEstudiantes();
+    MandardDatosTabla(c.obtenerDatosTabla(lista_estudiantes, lista_matricula));
+
 }
 
 
