@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
  * @author LUIS
  */
 public final class Diseño extends javax.swing.JFrame {
+    private int fm=-1;
      private ArrayList<Estudiante> lista_estudiantes;
     private ArrayList<Matricula> lista_matricula;
     Conexion c = new Conexion("jdbc:mysql://localhost:3306", "universidad", "root", "");
@@ -110,6 +111,11 @@ public final class Diseño extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(255, 255, 255));
         jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setText("MODIFICAR");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         JPanelMenu.add(jButton3);
         jButton3.setBounds(10, 198, 240, 80);
 
@@ -190,7 +196,11 @@ public final class Diseño extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setEnabled(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jPanelAparicion.add(jScrollPane1);
@@ -234,7 +244,8 @@ public final class Diseño extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        JOptionPane.showMessageDialog(null, "GRACIAS POR USAR EL PROGRAMA");
+        JOptionPane.showMessageDialog(null, "GRACIAS POR USAR EL PROGRAMA MACPATO");
+        System.exit(0);
                 
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -250,15 +261,22 @@ public final class Diseño extends javax.swing.JFrame {
         }
         Estudiante e =new Estudiante(nombre1, nombre2, apellido1, apellido2, fechaNacimiento, idMatricula);
          try {
-             c.InsertarEstudiante(e);
+             if(c.InsertarEstudiante(e)){
+              limpiar();
+             ActualizarDatos();}
          } catch (SQLException ex) {
              Logger.getLogger(Diseño.class.getName()).log(Level.SEVERE, null, ex);
          }
-         limpiar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
+      int a=jTable1.getSelectedRow();
+         try {
+             c.eliminarEstudiante(lista_estudiantes.get(a));
+             ActualizarDatos();
+         } catch (SQLException ex) {
+             Logger.getLogger(Diseño.class.getName()).log(Level.SEVERE, null, ex);
+         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void prim_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prim_nombreActionPerformed
@@ -268,6 +286,47 @@ public final class Diseño extends javax.swing.JFrame {
     private void seg_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seg_nombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_seg_nombreActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+          if (fm==-1) {
+           return; 
+        }
+        Estudiante e = lista_estudiantes.get(fm);
+        
+        e.setNombre1(prim_nombre.getText());
+        e.setNombre2(seg_nombre.getText());
+        e.setApellido1(primer_apellido.getText());
+        e.setApellido2(seg_apellido.getText());
+        e.setFechaNacimiento(fecha_nacimiento.getText());
+        e.setIdMatricula(Integer.parseInt(Num_matricula.getText()));
+        if (CamposVacios()) {
+            JOptionPane.showMessageDialog(null, "Hay algun campo queno deberia estar vacio");
+        }
+        try {
+             if(c. modificarEstudiante(e)){
+              limpiar();
+             ActualizarDatos();
+             fm=-1;
+             }
+         } catch (SQLException ex) {
+             Logger.getLogger(Diseño.class.getName()).log(Level.SEVERE, null, ex);
+         }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+      
+        fm= jTable1.getSelectedRow();
+        
+        Estudiante e = lista_estudiantes.get(fm);
+        if(e != null){
+         prim_nombre.setText(e.getNombre1());
+         seg_nombre.setText(e.getNombre2());
+        primer_apellido.setText(e.getApellido1());
+         seg_apellido.setText(e.getApellido2());
+         fecha_nacimiento.setText(e.getFechaNacimiento());
+        Num_matricula.setText(String.valueOf(e.getIdMatricula()));
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments

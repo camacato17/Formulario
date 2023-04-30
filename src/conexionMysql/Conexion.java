@@ -47,7 +47,8 @@ public class Conexion {
         ps.setString(5, e.getFechaNacimiento());
         ps.setInt(6, e.getIdMatricula());
         System.out.println(ps.toString());
-        return ps.execute();
+       int filasAfectadas = ps.executeUpdate();
+    return filasAfectadas > 0;
 
     }
     public boolean modificarEstudiante(Estudiante e) throws SQLException{
@@ -60,7 +61,8 @@ public class Conexion {
         ps.setInt(6, e.getIdMatricula());
         ps.setInt(7,e.getId());
         System.out.println(ps.toString());
-        return ps.execute();
+       int filasAfectadas = ps.executeUpdate();
+    return filasAfectadas > 0;
 
         
     }
@@ -69,7 +71,8 @@ public class Conexion {
         PreparedStatement ps =   conexion.prepareStatement(stmtBorrar);
         ps.setInt(1, e.getId());
         System.out.println(ps.toString());
-        return ps.execute();
+        int filasAfectadas = ps.executeUpdate();
+        return filasAfectadas > 0;
     }
     public ArrayList<Estudiante> obtenerEstudiantes() throws SQLException{
         
@@ -85,6 +88,7 @@ public class Conexion {
                 rs.getString(5),
                 rs.getDate(6).toString(),
                 rs.getInt(7)
+                    
             );
             listaEstudiantes.add(e);
         }
