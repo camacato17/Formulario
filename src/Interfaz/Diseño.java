@@ -1,7 +1,11 @@
 
 package Interfaz;
 
+
 import com.sun.jdi.connect.spi.Connection;
+import conexionMysql.Conexion;
+import conexionMysql.Estudiante;
+import conexionMysql.Matricula;
 import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -9,23 +13,28 @@ import conexionMysql.conector;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author LUIS
  */
 public final class Diseño extends javax.swing.JFrame {
-    
-    public Diseño() {
+     private ArrayList<Estudiante> lista_estudiantes;
+    private ArrayList<Matricula> lista_matricula;
+    Conexion c = new Conexion("jdbc:mysql://localhost:3306", "universidad", "root", "");
+  
+    public Diseño() throws SQLException {
         initComponents();
-        INSERTAR insertar = new INSERTAR();
-        insertar.setSize(800,800);
-        insertar.setVisible(true);
-        insertar.setLayout(new BorderLayout());
-        jPanelAparicion.removeAll();//
-        jPanelAparicion.add(insertar);
-        jPanelAparicion.repaint();//
-        jPanelAparicion.revalidate();
-        
+        lista_estudiantes=c.obtenerEstudiantes();
+        lista_matricula= c.obtenerMatriculas();
+        MandardDatosTabla(c.obtenerDatosTabla(lista_estudiantes, lista_matricula));
     }
 
     /**
@@ -45,6 +54,21 @@ public final class Diseño extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jPanelAparicion = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        prim_nombre = new javax.swing.JTextField();
+        primer_apellido = new javax.swing.JTextField();
+        Num_matricula = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        fecha_nacimiento = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        seg_nombre = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        seg_apellido = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -108,16 +132,93 @@ public final class Diseño extends javax.swing.JFrame {
         jPanelBase.add(JPanelMenu);
         JPanelMenu.setBounds(0, 0, 260, 660);
 
-        javax.swing.GroupLayout jPanelAparicionLayout = new javax.swing.GroupLayout(jPanelAparicion);
-        jPanelAparicion.setLayout(jPanelAparicionLayout);
-        jPanelAparicionLayout.setHorizontalGroup(
-            jPanelAparicionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 840, Short.MAX_VALUE)
-        );
-        jPanelAparicionLayout.setVerticalGroup(
-            jPanelAparicionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 660, Short.MAX_VALUE)
-        );
+        jPanelAparicion.setBackground(new java.awt.Color(0, 102, 204));
+        jPanelAparicion.setLayout(null);
+
+        jLabel2.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        jLabel2.setText("FORMULARIO ");
+        jPanelAparicion.add(jLabel2);
+        jLabel2.setBounds(340, 20, 150, 50);
+
+        prim_nombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prim_nombreActionPerformed(evt);
+            }
+        });
+        jPanelAparicion.add(prim_nombre);
+        prim_nombre.setBounds(180, 110, 90, 28);
+        jPanelAparicion.add(primer_apellido);
+        primer_apellido.setBounds(310, 110, 90, 28);
+        jPanelAparicion.add(Num_matricula);
+        Num_matricula.setBounds(470, 180, 120, 28);
+
+        jLabel3.setText(" Primer_Nombre");
+        jPanelAparicion.add(jLabel3);
+        jLabel3.setBounds(180, 90, 100, 16);
+
+        jLabel4.setText("Primer_Apellido");
+        jPanelAparicion.add(jLabel4);
+        jLabel4.setBounds(310, 90, 100, 16);
+
+        jLabel6.setText("N_matricula");
+        jPanelAparicion.add(jLabel6);
+        jLabel6.setBounds(480, 160, 67, 16);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Apellido", "Fecha Nacimiento", "Fecha Matricula"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setEnabled(false);
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanelAparicion.add(jScrollPane1);
+        jScrollPane1.setBounds(30, 240, 720, 350);
+        jPanelAparicion.add(fecha_nacimiento);
+        fecha_nacimiento.setBounds(460, 110, 120, 28);
+
+        jLabel7.setText("Fecha Nacimiento");
+        jPanelAparicion.add(jLabel7);
+        jLabel7.setBounds(470, 90, 100, 16);
+
+        seg_nombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seg_nombreActionPerformed(evt);
+            }
+        });
+        jPanelAparicion.add(seg_nombre);
+        seg_nombre.setBounds(180, 180, 90, 28);
+
+        jLabel5.setText("        Segundo_Nombre");
+        jPanelAparicion.add(jLabel5);
+        jLabel5.setBounds(140, 160, 150, 16);
+        jPanelAparicion.add(seg_apellido);
+        seg_apellido.setBounds(310, 180, 90, 28);
+
+        jLabel8.setText("Segundo_Apellido");
+        jPanelAparicion.add(jLabel8);
+        jLabel8.setBounds(310, 160, 100, 16);
 
         jPanelBase.add(jPanelAparicion);
         jPanelAparicion.setBounds(270, 0, 840, 660);
@@ -138,21 +239,34 @@ public final class Diseño extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     
+        String nombre1= prim_nombre.getText();
+        String nombre2= seg_nombre.getText();
+        String apellido1= primer_apellido.getText();
+        String apellido2= seg_apellido.getText();
+        String fechaNacimiento= fecha_nacimiento.getText();
+        int idMatricula=Integer.parseInt(Num_matricula.getText());
+        if (CamposVacios()) {
+            JOptionPane.showMessageDialog(null, "Hay algun campo queno deberia estar vacio");
+        }
+        Estudiante e =new Estudiante(nombre1, nombre2, apellido1, apellido2, fechaNacimiento, idMatricula);
+         try {
+             c.InsertarEstudiante(e);
+         } catch (SQLException ex) {
+             Logger.getLogger(Diseño.class.getName()).log(Level.SEVERE, null, ex);
+         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int row = INSERTAR.jTable1.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(null, "Por favor selecciona una fila para eliminar.");
-            return;
-        }
-        int id = (int) INSERTAR.jTable1.getValueAt(row, 0);
-        eliminarFila(id);
-        
-        // Remueve la fila de la tabla
-        ((DefaultTableModel) jTable1.getModel()).removeRow(row);
+
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void prim_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prim_nombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_prim_nombreActionPerformed
+
+    private void seg_nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seg_nombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_seg_nombreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -184,43 +298,59 @@ public final class Diseño extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Diseño().setVisible(true);
+                try {
+                    Diseño i =new Diseño();
+                    i.setVisible(true);
+                     i.setSize(1070, 700);
+                    i.setResizable(false);
+                    i.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Diseño.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     } 
+    public boolean CamposVacios(){
+         return prim_nombre.getText().isEmpty()|| primer_apellido.getText().isEmpty()|| seg_apellido.getText().isEmpty()||fecha_nacimiento.getText().isEmpty()
+                 ||Num_matricula.getText().isEmpty();
+    }
     
-   private void eliminarFila() {
-    int filaSeleccionada = INSERTAR.jTable1.getSelectedRow();
-    if (filaSeleccionada == -1) {
-        // Si no hay ninguna fila seleccionada, no hacer nada
-        return;
-    }
-    // Obtener el valor de la columna de la clave primaria
-    int id = (int) INSERTAR.jTable1.getValueAt(filaSeleccionada, 0);
-    // Eliminar la fila de la tabla en la base de datos
-    try {
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Universidad", "root", "");
-        String sql = "DELETE FROM estudiantes WHERE id=?";
-        PreparedStatement stmt = con.prepareStatement(sql);
-        stmt.setInt(1, id);
-        stmt.executeUpdate();
-        con.close();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    // Eliminar la fila de la tabla en la aplicación
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.removeRow(filaSeleccionada);
+     public void MandardDatosTabla(ArrayList<String[]>filas) {
+    DefaultTableModel model = new DefaultTableModel();
+    model.addColumn("Nombre");
+    model.addColumn("Apellido");
+    model.addColumn("Fecha de nacimiento");
+    model.addColumn("Fecha de matrícula");
+    jTable1.setModel(model);
+         for (String[] fila : filas) {
+             model.addRow(fila);
+         }
 }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel JPanelMenu;
+    private javax.swing.JTextField Num_matricula;
+    private javax.swing.JTextField fecha_nacimiento;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanelAparicion;
     private javax.swing.JPanel jPanelBase;
+    private javax.swing.JScrollPane jScrollPane1;
+    public static javax.swing.JTable jTable1;
+    private javax.swing.JTextField prim_nombre;
+    private javax.swing.JTextField primer_apellido;
+    private javax.swing.JTextField seg_apellido;
+    private javax.swing.JTextField seg_nombre;
     // End of variables declaration//GEN-END:variables
 }

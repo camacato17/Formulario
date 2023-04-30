@@ -22,7 +22,7 @@ public class Conexion {
     private static final String stmtBorrar = "DELETE FROM estudiante WHERE id = ?";
     private static final String stmtModificar ="UPDATE estudiante SET nombre1=?,nombre2=?,apellido1=?,apellido2=?, fecha_nacimiento=?, n_matricula=? WHERE id=?";
     
-    private static final String queryRelacion = "SELECT estudiante.id, matricula.n_matricula FROM estudiantes INNER JOIN matricula ON estudiante.n_matricula=matricula.n_matricula";
+    private static final String queryRelacion = "SELECT estudiante.id, matricula.n_matricula FROM estudiante INNER JOIN matricula ON estudiante.n_matricula=matricula.n_matricula";
     public Conexion(){
         
     }
@@ -125,7 +125,7 @@ public class Conexion {
             datos[1] = String.format("%s %s", e.getApellido1(),e.getApellido2());
             datos[2] = e.getFechaNacimiento();
             datos[3] = m.getFecha();
-            filasColumna.add(datos);
+            filasColumna.add(datos.clone());
         }
         
         return filasColumna;
