@@ -102,11 +102,11 @@ public class Conexion {
         }
         return listaMatriculas;
     }
-    public String[] obtenerDatosTabla(ArrayList<Estudiante> listaEstudiantes, ArrayList<Matricula> listaMatriculas) throws SQLException{
+    public ArrayList<String[]> obtenerDatosTabla(ArrayList<Estudiante> listaEstudiantes, ArrayList<Matricula> listaMatriculas) throws SQLException{
         String[] datos= new String[4];
         Statement stmt = conexion.createStatement();
         ResultSet rs = stmt.executeQuery(queryRelacion);
-        
+        ArrayList<String[]> filasColumna = new ArrayList<>();
         while (rs.next()) {
             int idEstudianteQ = rs.getInt(1);
             int idMatriculaQ = rs.getInt(2);
@@ -125,8 +125,9 @@ public class Conexion {
             datos[1] = String.format("%s %s", e.getApellido1(),e.getApellido2());
             datos[2] = e.getFechaNacimiento();
             datos[3] = m.getFecha();
+            filasColumna.add(datos);
         }
         
-        return datos;
+        return filasColumna;
     }
 }
