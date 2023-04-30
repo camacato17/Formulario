@@ -45,8 +45,8 @@ public class Conexion {
         ps.setString(2, e.getNombre2());
         ps.setString(3, e.getApellido1());
         ps.setString(4, e.getApellido2());
-        ps.setString(6, e.getFechaNacimiento());
-        ps.setInt(5, e.getIdMatricula());
+        ps.setString(5, e.getFechaNacimiento());
+        ps.setInt(6, e.getIdMatricula());
         ps.execute();
     }
     public void modificarEstudiante(Estudiante e) throws SQLException{
