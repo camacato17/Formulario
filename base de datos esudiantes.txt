@@ -36,13 +36,13 @@ insert into matricula(fecha_mat)values ("2005-03-28");
 insert into matricula(fecha_mat)values ("2005-03-29");
 
 
-insert into estudiantes(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("hugo","alfredo","macpato","perez","2005-03-23",1);
-insert into estudiantes(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("paco","eduardo","macpato","perez","2005-03-24",2);
-insert into estudiantes(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("johan","triana","macpato","perez","2005-03-24",3);
-insert into estudiantes(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("carlos","romero","romero","retrepo","2005-03-24",4);
-insert into estudiantes(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("johan","sebastian","garcia","triana","2005-03-24",5);
-insert into estudiantes(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("nicolas","david","milenio","hortua","2005-03-24",6);
-insert into estudiantes(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("valentina","diana","torres","garzon","2005-03-24",7);
+insert into estudiante(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("hugo","alfredo","macpato","perez","2005-03-23",1);
+insert into estudiante(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("paco","eduardo","macpato","perez","2005-03-24",2);
+insert into estudiante(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("johan","triana","macpato","perez","2005-03-24",3);
+insert into estudiante(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("carlos","romero","romero","retrepo","2005-03-24",4);
+insert into estudiante(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("johan","sebastian","garcia","triana","2005-03-24",5);
+insert into estudiante(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("nicolas","david","milenio","hortua","2005-03-24",6);
+insert into estudiante(nombre1,nombre2,apellido1,apellido2,fecha_nacimiento,N_matricula)values ("valentina","diana","torres","garzon","2005-03-24",7);
 
 
 
